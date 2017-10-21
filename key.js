@@ -1,7 +1,7 @@
 
 
 //JavaScript
-console.log('this is loaded');
+
 
 var twitterKeys = {
   consumer_key: 'KO4saZtDHLpBWJfUpydU50sFc',

@@ -1,6 +1,6 @@
 
 var action=process.argv[2];
-var movieName=process.argv[3];
+
  
 //Twitter NPM--------
 var Twitter =require('twitter')
@@ -14,6 +14,27 @@ var Spotify = require('node-spotify-api');
 var spotify= new Spotify({
 id:"f4745dc2e98147c398744914a3bb3787",
 secret:"2d5bd77b4d8c420c8c9cbfd7e6397899"});
+
+function spotifySearch(songName){
+	spotify.search({ type: 'track', query: songName,limit:1})
+	  .then(function(response) {
+
+	
+	    data = response.tracks.items
+	    for (var key in data){
+	    	data[key].name
+	    	
+	    	console.log("Artist:"+data[key].artists[0].name+"\n-----------------------"); 
+            console.log("Song's name:"+data[key].name+"\n-----------------------");
+            console.log("Preview URL:"+data[key].preview_url+"\n-----------------------");
+            console.log("Album:"+data[key].album.name+"\n-----------------------"); 
+
+	    }
+	  })
+	  .catch(function(err) {
+	    console.log(err);
+  });
+}
 
 //Request for omdb movie
 var request = require('request');
@@ -35,24 +56,16 @@ key.get('statuses/home_timeline',params,function(error,data,response){
 
 //Spotify NPM--------
  else if (action=='spotify-this-song'){
-
- spotify.request('https://api.spotify.com/v1/tracks/3DYVWvPh3kGwPasp7yjahc', function(err, data) {
-  if (err) {
-    return console.log('Error occurred: ' + err);
-  }
-console.log("Artist:"+data.artists[0].name+"\n-----------------------"); 
-console.log("Song's name:"+data.name+"\n-----------------------");
-console.log("Preview URL:"+data.preview_url+"\n-----------------------");
-console.log("Album:"+data.album.name+"\n-----------------------"); 
-
-});
-
-
+ 	var songName=process.argv[3];
+ 	if(songName==undefined)
+      {var songName="The Sign"}
+ 	spotifySearch(songName)
  }
 
 
 //omdb movie-------
   else if(action=='movie-this'){
+  	var movieName=process.argv[3];
      if(movieName==undefined)
       {var movieName="mr.nobody"}
   request("http://www.omdbapi.com/?t="+movieName+"&y=&plot=short&apikey=40e9cece", function(error, response, body) {
@@ -88,15 +101,14 @@ fs.readFile("random.txt", "utf8", function(error, data) {
   if (error) {
     return console.log(error);
   }
- console.log(data)
+ console.log()
+ data= data.split(',')
+ spotifySearch(data[1]);
 
   // We will then print the contents of data
  // else (action=)
 
- 
+ });
 
-});
-
-
- }
+};
 
