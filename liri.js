@@ -16,7 +16,7 @@ id:"f4745dc2e98147c398744914a3bb3787",
 secret:"2d5bd77b4d8c420c8c9cbfd7e6397899"});
 
 function spotifySearch(songName){
-	spotify.search({ type: 'track', query: songName,limit:1})
+	spotify.search({ type: 'track', query: songName,limit:10})
 	  .then(function(response) {
 
 	
@@ -58,7 +58,7 @@ key.get('statuses/home_timeline',params,function(error,data,response){
  else if (action=='spotify-this-song'){
  	var songName=process.argv[3];
  	if(songName==undefined)
-      {var songName="The Sign"}
+      {var songName=" The Sign "}
  	spotifySearch(songName)
  }
 
